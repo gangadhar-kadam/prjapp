@@ -6,7 +6,7 @@ wn.require('app/utilities/doctype/sms_control/sms_control.js');
 wn.provide("erpnext.selling");
 // TODO commonify this code
 erpnext.selling.Opportunity = wn.ui.form.Controller.extend({
-	onload: function() {
+	onload: function(doc,cdt,cdn) {
 		if(!this.frm.doc.enquiry_from && this.frm.doc.customer)
 			this.frm.doc.enquiry_from = "Customer";
 		if(!this.frm.doc.enquiry_from && this.frm.doc.lead)
@@ -32,18 +32,16 @@ erpnext.selling.Opportunity = wn.ui.form.Controller.extend({
 			}
 		} 
 
-		if(!this.frm.doc.__islocal) {
-			cur_frm.communication_view = new wn.views.CommunicationList({
-				list: wn.model.get("Communication", {"opportunity": this.frm.doc.name}),
-				parent: cur_frm.fields_dict.communication_html.wrapper,
-				doc: this.frm.doc,
-				recipients: this.frm.doc.contact_email
-			});
-		}
-		
+			
 		if(this.frm.doc.customer && !this.frm.doc.customer_name) cur_frm.cscript.customer(this.frm.doc);
 		
 		this.setup_queries();
+		if(this.frm.doc.__islocal) {		
+		return get_server_fields('get_stages_labels', '', '',doc, cdt, cdn, 1,function(r,rt){refresh_field('stages_history')});
+		}
+		refresh_field('stages_history')
+
+
 	},
 	
 	setup_queries: function() {
@@ -94,6 +92,13 @@ erpnext.selling.Opportunity = wn.ui.form.Controller.extend({
 			method: "selling.doctype.opportunity.opportunity.make_quotation",
 			source_name: cur_frm.doc.name
 		})
+	},
+	create_quetionnaire:function() {
+		//console.log("in the create quetionnnaire");
+		wn.model.open_mapped_doc({
+			method: "selling.doctype.opportunity.opportunity.make_quetionnaire",
+			source_name: cur_frm.doc.name
+		})
 	}
 });
 
@@ -102,6 +107,9 @@ $.extend(cur_frm.cscript, new erpnext.selling.Opportunity({frm: cur_frm}));
 cur_frm.cscript.refresh = function(doc, cdt, cdn){
 	erpnext.hide_naming_series();
 	cur_frm.clear_custom_buttons();
+	if(doc.docstatus != 1 && doc.status!=="Lost") {
+		cur_frm.add_custom_button(wn._("Create Quetionnaire"), cur_frm.cscript.create_quetionnaire);
+	}
 	
 	if(doc.docstatus === 1 && doc.status!=="Lost") {
 		cur_frm.add_custom_button(wn._('Create Quotation'), cur_frm.cscript.create_quotation);
@@ -110,6 +118,14 @@ cur_frm.cscript.refresh = function(doc, cdt, cdn){
 		}
 		cur_frm.add_custom_button(wn._('Send SMS'), cur_frm.cscript.send_sms, "icon-mobile-phone");
 	}
+
+	cur_frm.communication_view = new wn.views.CommunicationList({
+				// list: wn.model.get("Communication", {"opportunity": this.frm.doc.name}),
+				list: wn.model.get("Communication", {"parenttype":"Opportunity","parent": this.frm.doc.name}),
+				parent: cur_frm.fields_dict.communication_html.wrapper,
+				doc: this.frm.doc,
+				recipients: this.frm.doc.assigned
+			});
 	
 	cur_frm.toggle_display("contact_info", doc.customer || doc.lead);
 	
@@ -202,3 +218,24 @@ cur_frm.cscript['Declare Opportunity Lost'] = function(){
 	dialog.show();
 	
 }
+
+
+cur_frm.cscript.stages = function(doc,cdt,cdn){
+	if(doc.stages){
+		var CurrentDate = new Date();
+		var p = CurrentDate.getDate();
+		var a = CurrentDate.getMonth()+1;
+		var b = CurrentDate.getFullYear();
+		var s = b +'-'+ a + '-' + p;
+		console.log(s);
+		var val = getchildren('Stages History', doc.name, 'stages_history', doc.doctype);
+		for(var i = 0; i<val.length; i++){
+			if(val[i].type==doc.stages)
+				{
+				val[i].date=s;	
+				}
+				}
+				refresh_field('stages_history');
+				}
+}
+

@@ -2,7 +2,7 @@
  {
   "creation": "2013-03-07 11:55:07", 
   "docstatus": 0, 
-  "modified": "2013-11-06 15:13:55", 
+  "modified": "2014-05-09 02:08:38", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -27,15 +27,16 @@
   "permlevel": 0
  }, 
  {
-  "amend": 0, 
+  "create": 1, 
   "doctype": "DocPerm", 
   "name": "__common__", 
   "parent": "Project", 
   "parentfield": "permissions", 
   "parenttype": "DocType", 
+  "permlevel": 0, 
   "read": 1, 
   "report": 1, 
-  "submit": 0
+  "write": 1
  }, 
  {
   "doctype": "DocType", 
@@ -289,18 +290,15 @@
   "search_index": 1
  }, 
  {
+  "amend": 0, 
   "cancel": 1, 
-  "create": 1, 
   "doctype": "DocPerm", 
-  "permlevel": 0, 
+  "match": "owner", 
   "role": "Projects User", 
-  "write": 1
+  "submit": 0
  }, 
  {
-  "cancel": 0, 
-  "create": 0, 
   "doctype": "DocPerm", 
-  "permlevel": 1, 
-  "role": "All"
+  "role": "System Manager"
  }
 ]

@@ -72,6 +72,12 @@
    "icon": "icon-phone", 
    "link": "support-home", 
    "type": "module"
+  },
+ "Emails": {
+   "color": "#2c3e50", 
+   "icon": "icon-comments", 
+   "link": "emails", 
+   "type": "module"
   }
  }, 
  "requires_framework_version": "==3.7.1"

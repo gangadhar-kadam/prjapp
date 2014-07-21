@@ -20,7 +20,6 @@ for_doctype = {
 	"Expense Claim": {"approval_status":"Draft"},
 	"Job Applicant": {"status":"Open"},
 	"Purchase Receipt": {"docstatus":0},
-	"Delivery Note": {"docstatus":0},
 	"Stock Entry": {"docstatus":0},
 	"Material Request": {"docstatus":0},
 	"Purchase Order": {"docstatus":0},

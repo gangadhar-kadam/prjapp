@@ -5,10 +5,12 @@ from __future__ import unicode_literals
 import webnotes
 
 from webnotes.utils import cstr, cint
+from webnotes.model.doc import Document, make_autoname
+from utilities.transaction_base import get_address_display 
 from webnotes.model.bean import getlist
 from webnotes import msgprint, _
 
-	
+from webnotes.model.doc import addchild	
 from utilities.transaction_base import TransactionBase
 
 class DocType(TransactionBase):
@@ -60,7 +62,74 @@ class DocType(TransactionBase):
 			raise Exception
 			
 	def on_update(self):
+  		self.doc.opportunity_ref=self.doc.name
 		self.add_calendar_event()
+		self.get_leadcomm_detail()
+		self.set_addr()
+		self.doc.save()
+
+	def autoname(self):
+		self.doc.name = make_autoname('OPPT.######')
+#		if self.doc.lead:
+#			address_details = webnotes.conn.sql("select address_title, address_type from tabAddress where lead = '%s'"%(self.doc.lead),as_list=1)
+#			if address_details:
+#				for address in address_details:
+#					if address[1] == 'Job Location':
+#						self.doc.name = make_autoname(self.set_addr())
+#					else:
+						# self.doc.name = make_autoname('OPPT.#######')
+#						self.doc.name = make_autoname(address[1] + '-'+ address[0])
+#			else:
+#				self.doc.name = make_autoname('OPPT.######')
+
+	def get_leadcomm_detail(self):
+		check_communication_exist=webnotes.conn.sql("select name from `tabCommunication` where parent='%s'"%(self.doc.name))
+		if not check_communication_exist:
+			if self.doc.lead:
+				res=webnotes.conn.sql("select name from `tabCommunication` where parent='%s'"%(self.doc.lead))
+				for name in res:
+					#webnotes.errprint(name)
+				 	content=webnotes.conn.sql("select * from `tabCommunication` where name='%s'"%(name[0]),as_dict=1)
+					if content:
+						for data in content:
+							d=Document('Communication')
+							d.content=data.content
+							d.parent=self.doc.name
+							d.parenttype='Opportunity'
+							d.idx=data.idx
+							d.docstatus=data.docstatus
+							d.parentfield=data.parentfield
+							d.sender=data.sender
+							d.recipients=data.recipients
+							d.sent_or_received=data.sent_or_received
+							d.communication_medium=data.communication_medium
+							d.subject=data.subject
+							d.save()
+
+	def set_addr(self):
+		if self.doc.lead:
+			job_location=webnotes.conn.sql("select name,address_type from `tabAddress` where lead='%s'"%(self.doc.lead),as_list=1)
+			if job_location:
+				for address in job_location:
+					if address[1]=='Job Location':
+						self.doc.customer_address=address[0]
+						self.doc.address_display=get_address_display(self.doc.customer_address)
+					else:
+						self.doc.customer_address=address[0]
+						self.doc.address_display=get_address_display(self.doc.customer_address)	
+
+			return self.doc.address_display
+
+	def get_stages_labels(self):
+		stages_list=['RFR','CRFR','RFL','CRFL']
+		for stg in stages_list:
+			ch = addchild(self.doc, 'stages_history','Stages History', self.doclist)
+			ch.type=stg
+			# ch.date=today
+			#webnotes.errprint(ch)
+
+
+
 
 	def add_calendar_event(self, opts=None, force=False):
 		if not opts:
@@ -162,3 +231,25 @@ def make_quotation(source_name, target_doclist=None):
 	}, target_doclist, set_missing_values)
 		
 	return [d.fields for d in doclist]
+
+@webnotes.whitelist()
+def make_quetionnaire(source_name, target_doclist=None):
+	#webnotes.errprint("in the make_quetionnaire")
+	from webnotes.model.mapper import get_mapped_doclist
+		
+	doclist = get_mapped_doclist("Opportunity", source_name, 
+		{"Opportunity": {
+			"doctype": "Questionnaire",
+			"field_map": {
+				"lead": "lead_name",
+				"customer_address": "site_address"
+				},
+			"validation": {
+				"docstatus": ["=", 0]
+			}
+			
+
+			}
+		}, target_doclist)
+		
+	return [d if isinstance(d, dict) else d.fields for d in doclist]

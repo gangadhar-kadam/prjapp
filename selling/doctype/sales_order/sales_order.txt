@@ -2,7 +2,7 @@
  {
   "creation": "2013-06-18 12:39:59", 
   "docstatus": 0, 
-  "modified": "2013-11-03 14:20:16", 
+  "modified": "2014-05-09 02:06:44", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -900,6 +900,7 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "match": "owner", 
   "report": 1, 
   "role": "Sales User", 
   "submit": 1, 
@@ -910,6 +911,7 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "match": "owner", 
   "report": 1, 
   "role": "Maintenance User", 
   "submit": 1, 
@@ -917,11 +919,19 @@
  }, 
  {
   "doctype": "DocPerm", 
+  "match": "owner", 
   "role": "Accounts User"
  }, 
  {
   "doctype": "DocPerm", 
-  "match": "customer", 
+  "match": "owner", 
   "role": "Customer"
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "report": 1, 
+  "role": "System Manager", 
+  "write": 1
  }
 ]

@@ -168,8 +168,13 @@ items = [
 		"single": 1,
 		"query": "select count(*) from tabSingles where doctype='Jobs Email Settings' and field='host'"
 	},
-	{
+      	{
 		"doctype": "Email Digest",
+	},
+        {	"title": _("Oauth Settings"),
+                "route": "Form/OAuth Settings", 
+		"type": "Link",
+		"icon": "icon-exclamation-sign"
 	},
 	{
 		"type": "Section",
@@ -231,6 +236,8 @@ items = [
 		"route": "Form/Backup Manager", "type": "Link", "icon": "icon-cloud" },
 	{ "title": _("System Scheduler Errors"),
 		"route": "Report/Scheduler Log", "type": "Link", "icon": "icon-exclamation-sign" },
+
+
 ]
 
 @webnotes.whitelist()

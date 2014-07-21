@@ -22,11 +22,12 @@ wn.module_page["Stock"] = [
 				description: wn._("Record item movement."),
 				doctype:"Stock Entry"
 			},
-			{
+		       /*	{
 				label: wn._("Delivery Note"),
 				description: wn._("Shipments to customers."),
 				doctype:"Delivery Note"
-			},
+		
+                  	},*/
 			{
 				label: wn._("Purchase Receipt"),
 				description: wn._("Goods received from Suppliers."),

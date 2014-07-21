@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-24 19:29:08", 
   "docstatus": 0, 
-  "modified": "2013-12-14 17:25:46", 
+  "modified": "2014-04-22 10:27:33", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -37,8 +37,7 @@
   "parentfield": "permissions", 
   "parenttype": "DocType", 
   "permlevel": 0, 
-  "read": 1, 
-  "report": 1
+  "read": 1
  }, 
  {
   "doctype": "DocType", 
@@ -129,7 +128,7 @@
   "fieldname": "address_display", 
   "fieldtype": "Small Text", 
   "hidden": 1, 
-  "in_filter": 0, 
+  "in_filter": 1, 
   "label": "Address", 
   "oldfieldname": "customer_address", 
   "oldfieldtype": "Small Text", 
@@ -845,6 +844,7 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "report": 1, 
   "role": "Sales Manager", 
   "submit": 1, 
   "write": 1
@@ -854,6 +854,7 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "report": 1, 
   "role": "Sales User", 
   "submit": 1, 
   "write": 1
@@ -863,7 +864,7 @@
   "cancel": 0, 
   "create": 0, 
   "doctype": "DocPerm", 
-  "match": "customer", 
+  "report": 1, 
   "role": "Customer", 
   "submit": 0, 
   "write": 0
@@ -873,6 +874,7 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "report": 1, 
   "role": "Maintenance Manager", 
   "submit": 1, 
   "write": 1
@@ -882,8 +884,22 @@
   "cancel": 1, 
   "create": 1, 
   "doctype": "DocPerm", 
+  "report": 1, 
   "role": "Maintenance User", 
   "submit": 1, 
+  "write": 1
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "report": 1, 
+  "role": "Administrator", 
+  "write": 1
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "role": "System Manager", 
   "write": 1
  }
 ]

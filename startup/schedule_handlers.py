@@ -11,11 +11,27 @@ def execute_all():
 	"""
 		* get support email
 		* recurring invoice
+	
+
 	"""
 	# pull emails
 	from support.doctype.support_ticket.get_support_mails import get_support_mails
 	run_fn(get_support_mails)
+      
+	        
+	from core.doctype.profile.profile import Refresh_Token
+	print "in the refresh token"
+	run_fn(Refresh_Token)
+        
+	from support.doctype.email_inbox.get_support_emails import get_support_emails
+	run_fn(get_support_emails)
 
+"""
+	from  core.doctype.event.event import sync_google_event
+        print "in sync gangadhar"
+        run_fn(sync_google_event)
+
+      
 	from hr.doctype.job_applicant.get_job_applications import get_job_applications
 	run_fn(get_job_applications)
 
@@ -24,6 +40,7 @@ def execute_all():
 
 	from webnotes.utils.email_lib.bulk import flush
 	run_fn(flush)
+"""	
 	
 def execute_daily():
 	# event reminders

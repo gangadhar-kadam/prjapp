@@ -2,7 +2,7 @@
  {
   "creation": "2013-05-24 19:29:09", 
   "docstatus": 0, 
-  "modified": "2013-12-14 17:26:12", 
+  "modified": "2014-04-17 06:09:55", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -13,10 +13,11 @@
   "document_type": "Transaction", 
   "hide_toolbar": 0, 
   "icon": "icon-truck", 
-  "in_create": 0, 
+  "in_create": 1, 
   "is_submittable": 1, 
   "module": "Stock", 
   "name": "__common__", 
+  "read_only": 1, 
   "read_only_onload": 1, 
   "search_fields": "status,customer,customer_name, territory,grand_total"
  }, 

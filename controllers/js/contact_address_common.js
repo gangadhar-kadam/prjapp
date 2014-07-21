@@ -25,7 +25,9 @@ cur_frm.cscript.onload = function(doc, cdt, cdn) {
 				.indexOf(doctype)!==-1) {
 				var refdoc = wn.model.get_doc(doctype, docname);
 
-				if(refdoc.doctype == "Quotation" ? refdoc.quotation_to=="Customer" : true) {
+				if((refdoc.doctype == "Quotation" && refdoc.quotation_to=="Customer") ||
+ 					(refdoc.doctype == "Opportunity" && refdoc.enquiry_from=="Customer") ||
+ 					!in_list(["Opportunity", "Quotation"], doctype)){
 					cur_frm.set_value("customer", refdoc.customer || refdoc.name);
 					cur_frm.set_value("customer_name", refdoc.customer_name);
 					if(cur_frm.doc.doctype==="Address")
@@ -40,11 +42,12 @@ cur_frm.cscript.onload = function(doc, cdt, cdn) {
 				if(cur_frm.doc.doctype==="Address")
 					cur_frm.set_value("address_title", cur_frm.doc.supplier_name);
 			}
-			if(["Lead", "Quotation"]
+			if(["Lead", "Quotation","Opportunity"]
 				.indexOf(doctype)!==-1) {
 				var refdoc = wn.model.get_doc(doctype, docname);
 				
-				if(refdoc.doctype == "Quotation" ? refdoc.quotation_to=="Lead" : true) {
+				if((refdoc.doctype == "Quotation" && refdoc.quotation_to=="Lead") ||
+					(refdoc.doctype == "Opportunity" && refdoc.enquiry_from=="Lead") || (doctype=="Lead")){
 					cur_frm.set_value("lead", refdoc.lead || refdoc.name);
 					cur_frm.set_value("lead_name", refdoc.customer_name || refdoc.company_name || refdoc.lead_name);
 					if(cur_frm.doc.doctype==="Address")

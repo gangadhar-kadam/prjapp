@@ -2,7 +2,7 @@
  {
   "creation": "2013-04-10 11:45:37", 
   "docstatus": 0, 
-  "modified": "2013-11-25 11:38:00", 
+  "modified": "2014-05-14 05:57:40", 
   "modified_by": "Administrator", 
   "owner": "Administrator"
  }, 
@@ -25,18 +25,13 @@
   "permlevel": 0
  }, 
  {
-  "amend": 0, 
-  "create": 1, 
   "doctype": "DocPerm", 
   "name": "__common__", 
   "parent": "Lead", 
   "parentfield": "permissions", 
   "parenttype": "DocType", 
   "permlevel": 0, 
-  "read": 1, 
-  "report": 1, 
-  "submit": 0, 
-  "write": 1
+  "read": 1
  }, 
  {
   "doctype": "DocType", 
@@ -57,7 +52,7 @@
   "no_copy": 1, 
   "oldfieldname": "naming_series", 
   "oldfieldtype": "Select", 
-  "options": "LEAD\nLEAD/10-11/\nLEAD/MUMBAI/", 
+  "options": "Installer Lead\nCustomer Lead", 
   "reqd": 0
  }, 
  {
@@ -396,13 +391,42 @@
   "print_hide": 1
  }, 
  {
+  "amend": 0, 
   "cancel": 1, 
+  "create": 1, 
   "doctype": "DocPerm", 
-  "role": "Sales Manager"
+  "match": "owner", 
+  "report": 1, 
+  "role": "Sales Manager", 
+  "submit": 0, 
+  "write": 1
  }, 
  {
+  "amend": 0, 
   "cancel": 0, 
+  "create": 1, 
   "doctype": "DocPerm", 
+  "match": "owner", 
+  "report": 1, 
+  "role": "Sales User", 
+  "submit": 0, 
+  "write": 1
+ }, 
+ {
+  "create": 1, 
+  "doctype": "DocPerm", 
+  "report": 1, 
+  "role": "System Manager", 
+  "write": 1
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "match": "lead_owner", 
   "role": "Sales User"
+ }, 
+ {
+  "doctype": "DocPerm", 
+  "match": "lead_owner", 
+  "role": "Sales Manager"
  }
 ]
